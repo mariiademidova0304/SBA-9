@@ -9,7 +9,7 @@ export interface Task {
   dueDate: string;
 }
 
-export interface FormData {
+export interface InputFormData {
   title: string;
   description: string;
   status: TaskStatus;
@@ -36,8 +36,14 @@ export interface TaskFilterProps {
   }) => void;
 }
 
-export interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
+export interface InputFormData {
+  title: string;
+  description: string;
+  status: TaskStatus;
+  priority: 'low' | 'medium' | 'high';
+  dueDate: string;
+}
+
+export interface TaskInputFormProps {
+    onTaskSubmit: (newTaskData: InputFormData) => void;
 }

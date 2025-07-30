@@ -28,7 +28,7 @@ export default function TaskFilter({ onFilterChange }: TaskFilterProps) {
         <div style={{display:'flex', padding: '5px', gap: '5px'}}>
             <div>
                 <label htmlFor="select-status">Status</label>
-                <select name="select-status" onChange={filterStatus}>
+                <select id="select-status" name="select-status" onChange={filterStatus}>
                     <option value='all'>All</option>
                     <option value='pending'>Pending</option>
                     <option value='in-progress'>In progress</option>
