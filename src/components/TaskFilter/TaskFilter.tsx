@@ -3,7 +3,7 @@ import type { TaskStatus } from "../../types";
 
 //filtering tasks while only having a function as a prop that's gonna be called by the parent that has more
 //details on tasks
-export default function TaskFilter({ onFilterChange }: TaskFilterProps) {
+export default function TaskFilter({ onFilterChange, onSearchInput }: TaskFilterProps) {
 //filter by status, if the option is all - we don't actually pass an empty filter which should return original
     const filterStatus = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const filteredStatus = event.target.value;
@@ -22,6 +22,11 @@ export default function TaskFilter({ onFilterChange }: TaskFilterProps) {
         } else {
             onFilterChange({ priority: filteredPriority as 'low' | 'medium' | 'high' })
         }
+    }
+
+    const searchByName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const searchedName = event.target.value;
+        onSearchInput(searchedName);
     }
 
     return (
@@ -43,6 +48,10 @@ export default function TaskFilter({ onFilterChange }: TaskFilterProps) {
                     <option value='medium'>Medium</option>
                     <option value='high'>High</option>
                 </select>
+            </div>
+             <div>
+                <label htmlFor="search-title">Search by name</label>
+                <input id="search-title" type="text" onChange={searchByName}/>
             </div>
         </div>
     )

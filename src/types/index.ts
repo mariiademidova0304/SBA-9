@@ -34,6 +34,7 @@ export interface TaskFilterProps {
     status?: TaskStatus;
     priority?: 'low' | 'medium' | 'high';
   }) => void;
+  onSearchInput: (searchWord: string) => void;
 }
 
 export interface InputFormData {

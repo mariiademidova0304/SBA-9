@@ -10,28 +10,38 @@ import type { TaskInputFormProps } from "../../types";
 //   dueDate: string;
 // }
 
+
+//creating input form following instructions from the lesson on basic forms
+//passing props, adding them as type to React.FC because React.Fc is not accepting props
 const TaskInputForm: React.FC<TaskInputFormProps> = ({onTaskSubmit}) => {
-    const [inputFormData, setInputFormData] = useState<InputFormData>({
+    //saving initial state in a variable to clear the fields after submission
+    const initialState : InputFormData = {
         title: '',
         description: '',
         status: 'pending',
         priority: 'low',
         dueDate: '',
-    });
+    }
+    
+    const [inputFormData, setInputFormData] = useState<InputFormData>(initialState);
 
-
+//creating handler for changes, using union type since my fields are either input or select
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const {name, value} = event.target;
 
+        //not entirely understanding, but we should be updating the state based off where change was done
+        //then linking name to the name in the state and changing value
         setInputFormData(prevInputFormData => ({
             ...prevInputFormData,
             [name]: value
         }))
     }
 
+    //sending state to parent with function prop, created in the index.ts and imported here
     const  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         onTaskSubmit(inputFormData);
+        setInputFormData(initialState)
     }
 
 
