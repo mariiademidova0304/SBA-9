@@ -48,3 +48,15 @@ export interface InputFormData {
 export interface TaskInputFormProps {
     onTaskSubmit: (newTaskData: InputFormData) => void;
 }
+
+export interface DashboardProps {
+  tasks: Task[];
+  onTaskSubmit: (newTaskData: InputFormData) => void; 
+  onFilterChange: (filters: {
+    status?: TaskStatus;
+    priority?: 'low' | 'medium' | 'high';
+  }) => void; 
+  onSearchInput: (searchWord: string) => void; 
+  onStatusChange: (taskId: string, newStatus: TaskStatus) => void; 
+  onDelete: (taskId: string) => void;
+}
