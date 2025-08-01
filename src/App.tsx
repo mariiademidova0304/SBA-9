@@ -6,6 +6,7 @@ import type { TaskStatus } from './types'
 import TaskFilter from './components/TaskFilter/TaskFilter'
 import Dashboard from './components/Dashboard/Dashboard'
 import type { InputFormData } from './types'
+import { Container } from 'react-bootstrap'
 
 
 function App() {
@@ -84,7 +85,7 @@ const [allTasks, setAllTasks] = useState<Task[]>([])
 
 
     return (
-        <>
+        <Container>
         <Dashboard 
         tasks = {displayingTasks}
         onTaskSubmit={handleNewTask}
@@ -98,7 +99,7 @@ const [allTasks, setAllTasks] = useState<Task[]>([])
                 tasks={displayingTasks}
                 onStatusChange={changeTaskStatus}
                 onDelete={deleteTask} /> */}
-        </>
+        </Container>
 
     )
 }
