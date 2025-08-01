@@ -9,7 +9,8 @@ import type { InputFormData } from './types'
 
 
 function App() {
-
+//creating 2 arrays, one will hold all existing tasks, another will only have those we need to display(for filtering)
+const [allTasks, setAllTasks] = useState<Task[]>([])
  const [displayingTasks, setDisplayingTasks] = useState<Task[]>([]);
 
  const handleNewTask = (newTaskData: InputFormData) => {
@@ -23,51 +24,60 @@ function App() {
     }
 
     setDisplayingTasks([...displayingTasks, newTask])
+    setAllTasks([...allTasks, newTask])
  }
 
- 
- /////////////////////////////THIS IS ALL OLD CODE//////////////////////////////////////////////
-    //setting the state of them
+ //filtering to a new array that doesn't include a task with delete id 
+ const deleteTask = (taskId: string) => {
+        setDisplayingTasks(prevDisplayingTasks =>
+            prevDisplayingTasks.filter(task => task.id !== taskId)
+        )
+        setAllTasks(prevTasks =>
+            prevTasks.filter(task => task.id !== taskId)
+        )
+    }
 
-    //copied this off lesson example, mapping to set a new state of the tasks where updated task has its new status
+      //copied this off lesson example, mapping to set a new state of the tasks where updated task has its new status
     const changeTaskStatus = (taskId: string, newStatus: TaskStatus) => {
         setDisplayingTasks(prevDisplayingTasks =>
             prevDisplayingTasks.map(task =>
                 task.id === taskId ? { ...task, status: newStatus } : task
             )
         )
-    }
-//filtering to a new array that doesn't include a task with delete id 
-    const deleteTask = (taskId: string) => {
-        setDisplayingTasks(prevDisplayingTasks =>
-            prevDisplayingTasks.filter(task => task.id !== taskId)
+        setDisplayingTasks(prevTasks => 
+            prevTasks.map(task =>
+                task.id === taskId ? {...task, status: newStatus} : task
+            )
         )
     }
-//filtering all the tasks we have to then add them to state
+
+
+//filtering all the tasks we have in the state to then add them to state of displaying tasks without losing those from filtering
 //filtering either by status or priority
-//problem: if i change the status of my tasks it's not changed in my array of tasks - i need to be changing them too on status change
     const filterTasks = (filters: {
         status?: TaskStatus;
         priority?: 'low' | 'medium' | 'high';}) => {
+            const filteringTasks = allTasks;
             if(filters.status){
-            setDisplayingTasks(tasksList.filter(task => task.status === filters.status))
+            setDisplayingTasks(filteringTasks.filter(task => task.status === filters.status))
             } else if (filters.priority) {
-                setDisplayingTasks(tasksList.filter(task => task.priority === filters.priority))
+                setDisplayingTasks(filteringTasks.filter(task => task.priority === filters.priority))
             //i might not need this else since i have the 'all' logic already?
             }else{
-                setDisplayingTasks(tasksList)
+                setDisplayingTasks(filteringTasks)
             }
         }
+ 
 
     return (
         <>
         <Dashboard 
         tasks = {displayingTasks}
         onTaskSubmit={handleNewTask}
-        onDelete={}
-        onFilterChange={}
+        onDelete={deleteTask}
+        onFilterChange={filterTasks}
         onSearchInput={}
-        onStatusChange={}/>
+        onStatusChange={changeTaskStatus}/>
             {/* <TaskFilter
                 onFilterChange={filterTasks} />
             <TaskList
