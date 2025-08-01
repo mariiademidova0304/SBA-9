@@ -4,42 +4,35 @@ import type { Task } from './types'
 import TaskList from './components/TaskList/TaskList'
 import type { TaskStatus } from './types'
 import TaskFilter from './components/TaskFilter/TaskFilter'
+import Dashboard from './components/Dashboard/Dashboard'
+import type { InputFormData } from './types'
+
 
 function App() {
- let tasksList: Task[] = [
-        {
-            id: 'idHomework',
-            title: 'Homework',
-            description: 'Lab 9.3 and SBA 9',
-            status: 'in-progress',
-            priority: 'high',
-            dueDate: '7/30/2025',
-        },
-        {
-            id: 'idLaundry',
-            title: 'Laundry',
-            description: 'Wash work clothes for Sat shift',
-            status: 'pending',
-            priority: 'medium',
-            dueDate: '8/1/2025',
-        },
-        {
-            id: 'idFruits',
-            title: 'Buy fruits',
-            description: 'Need mangos, pineapple and oranges/peaches',
-            status: 'completed',
-            priority: 'low',
-            dueDate: '7/29/2025',
-        }
-    ]
 
+ const [displayingTasks, setDisplayingTasks] = useState<Task[]>([]);
+
+ const handleNewTask = (newTaskData: InputFormData) => {
+    const newTask : Task = {
+        id: newTaskData.title + newTaskData.dueDate,
+        title: newTaskData.title,
+        description: newTaskData.description,
+        status: newTaskData.status,
+        priority: newTaskData.priority,
+        dueDate: newTaskData.dueDate
+    }
+
+    setDisplayingTasks([...displayingTasks, newTask])
+ }
+
+ 
+ /////////////////////////////THIS IS ALL OLD CODE//////////////////////////////////////////////
     //setting the state of them
-    const [displayingTasks, setDisplayingTasks] = useState<Task[]>(tasksList);
 
     //copied this off lesson example, mapping to set a new state of the tasks where updated task has its new status
     const changeTaskStatus = (taskId: string, newStatus: TaskStatus) => {
         setDisplayingTasks(prevDisplayingTasks =>
-            [...prevDisplayingTasks].map(task =>
+            prevDisplayingTasks.map(task =>
                 task.id === taskId ? { ...task, status: newStatus } : task
             )
         )
@@ -68,12 +61,19 @@ function App() {
 
     return (
         <>
-            <TaskFilter
+        <Dashboard 
+        tasks = {displayingTasks}
+        onTaskSubmit={handleNewTask}
+        onDelete={}
+        onFilterChange={}
+        onSearchInput={}
+        onStatusChange={}/>
+            {/* <TaskFilter
                 onFilterChange={filterTasks} />
             <TaskList
                 tasks={displayingTasks}
                 onStatusChange={changeTaskStatus}
-                onDelete={deleteTask} />
+                onDelete={deleteTask} /> */}
         </>
 
     )
