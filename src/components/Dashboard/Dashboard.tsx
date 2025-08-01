@@ -13,9 +13,9 @@ export default function Dashboard({tasks,
 
     return(
         <>
-        <TaskInputForm />
-        <TaskFilter />
-        <TaskList />
+        <TaskInputForm onTaskSubmit={onTaskSubmit}/>
+        <TaskFilter onFilterChange={onFilterChange} onSearchInput={onSearchInput}/>
+        <TaskList tasks={tasks} onStatusChange={onStatusChange} onDelete={onDelete}/>
         </>
     )
 }

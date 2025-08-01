@@ -44,7 +44,7 @@ const [allTasks, setAllTasks] = useState<Task[]>([])
                 task.id === taskId ? { ...task, status: newStatus } : task
             )
         )
-        setDisplayingTasks(prevTasks => 
+        setAllTasks(prevTasks => 
             prevTasks.map(task =>
                 task.id === taskId ? {...task, status: newStatus} : task
             )
@@ -68,6 +68,20 @@ const [allTasks, setAllTasks] = useState<Task[]>([])
             }
         }
  
+    const searchTask = (searchWord: string) => {
+        const searchWordTrimmed = searchWord.trim();
+        // if(searchWordTrimmed.length < 3 && searchWordTrimmed.length > 0){
+        //         alert('Need more letters')
+        if(searchWordTrimmed === ''){
+        setDisplayingTasks(allTasks)
+        } else {
+        setDisplayingTasks(prevDisplayedTasks =>
+            prevDisplayedTasks.filter(task => task.title.includes(searchWordTrimmed))
+        )  
+        }
+
+    }
+
 
     return (
         <>
@@ -76,7 +90,7 @@ const [allTasks, setAllTasks] = useState<Task[]>([])
         onTaskSubmit={handleNewTask}
         onDelete={deleteTask}
         onFilterChange={filterTasks}
-        onSearchInput={}
+        onSearchInput={searchTask}
         onStatusChange={changeTaskStatus}/>
             {/* <TaskFilter
                 onFilterChange={filterTasks} />
